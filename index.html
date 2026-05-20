@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Time Premium Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f5f5f7; color:#222; padding-bottom:170px; }
+        /* HEADER */
+        header{ background:linear-gradient(135deg,#5f0a87,#a4508b); padding:20px 18px 28px; color:white; border-bottom-left-radius:30px; border-bottom-right-radius:30px; position:sticky; top:0; z-index:999; box-shadow:0 8px 25px rgba(0,0,0,.15); }
+        .header-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .logo-box{ width:72px; height:72px; border-radius:22px; background: transparent; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(0,0,0,.15); overflow: hidden; cursor: pointer; }
+        .search-bar{ width:100%; padding:15px 18px; border:none; outline:none; border-radius:50px; font-size:15px; box-shadow:0 5px 20px rgba(0,0,0,.15); }
+        /* CONTAINER */
+        .container{ max-width:500px; margin:auto; padding:15px; }
+        /* HERO */
+        .hero-banner{ background:linear-gradient(135deg,#ff007a,#ff4da6); border-radius:28px; padding:24px; display:flex; justify-content:space-between; align-items:center; overflow:hidden; color:white; box-shadow:0 10px 25px rgba(255,0,122,.25); margin-top:-10px; }
+        .hero-banner img{ width:120px; height:120px; object-fit:cover; border-radius:20px; }
+        .hero-btn{ margin-top:12px; padding:10px 18px; background:white; border:none; border-radius:50px; color:#ff007a; font-weight:bold; }
+        /* SECTION & CATEGORIES */
+        .section-title{ font-size:18px; font-weight:700; margin:24px 0 15px; }
+        .category-grid{ display:flex; gap:14px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none; }
+        .category-grid::-webkit-scrollbar{ display:none; }
+        .category-item{ min-width:90px; text-align:center; cursor:pointer; }
+        .category-img{ width:75px; height:75px; border-radius:24px; background:white; display:flex; align-items:center; justify-content:center; font-size:34px; margin:auto; box-shadow:0 4px 14px rgba(0,0,0,.08); transition:.25s; }
+        .category-name{ margin-top:8px; font-size:12px; font-weight:600; }
+        .category-item.active .category-img{ background:linear-gradient(135deg,#ff007a,#ff4da6); color:white; transform:scale(1.05); }
+        /* SHOP CARD */
+        .restaurant-card{ background:white; border-radius:28px; overflow:hidden; margin-bottom:20px; box-shadow:0 8px 25px rgba(0,0,0,.06); cursor:pointer; transition:.25s; }
+        .restaurant-card:hover{ transform:translateY(-4px); }
+        .card-image-box{ height:180px; background-size:cover; background-position:center; position:relative; }
+        .badge-discount{ position:absolute; top:14px; left:14px; background:#ff007a; color:white; padding:8px 14px; border-radius:30px; font-size:12px; font-weight:bold; }
+        .delivery-time{ position:absolute; bottom:14px; right:14px; background:white; padding:6px 12px; border-radius:30px; font-size:12px; font-weight:bold; }
+        .card-details{ padding:16px; }
+        .res-title-row{ display:flex; justify-content:space-between; align-items:center; }
+        .res-title{ font-size:17px; font-weight:700; }
+        .res-rating{ background:#fff0f7; padding:5px 10px; border-radius:20px; font-size:12px; font-weight:bold; color:#ff007a; }
+        .res-meta{ margin-top:8px; font-size:13px; color:#666; line-height:1.5; }
+        /* MENU & BILLING */
+        .back-btn{ background:none; border:none; font-size:16px; font-weight:bold; margin-bottom:15px; color:#ff007a; cursor:pointer; }
+        .menu-item-card{ background:white; border-radius:24px; padding:16px; display:flex; flex-direction:column; gap:12px; margin-bottom:15px; box-shadow:0 5px 15px rgba(0,0,0,.05); }
+        .menu-main-row{ display:flex; gap:14px; align-items:center; width:100%; }
+        .item-img{ width:90px; height:90px; border-radius:18px; background-size:cover; background-position:center; flex-shrink:0; }
+        .item-info{ flex:1; }
+        .item-name{ font-weight:700; font-size:15px; }
+        .item-price{ margin-top:6px; font-size:14px; font-weight:bold; color:#ff007a; }
+        .quantity-box{ display:flex; align-items:center; background:linear-gradient(135deg,#ff007a,#ff4da6); border-radius:30px; overflow:hidden; height:40px; }
+        .qty-btn{ background:none; border:none; color:white; width:36px; height:40px; font-size:18px; font-weight:bold; cursor:pointer; }
+        .qty-text{ color:white; min-width:26px; text-align:center; font-weight:bold; }
+        .add-btn{ background:linear-gradient(135deg,#ff007a,#ff4da6); border:none; color:white; padding:10px 18px; border-radius:30px; font-weight:bold; cursor:pointer; height:42px; }
+        /* EXTRA ITEMS SECTION */
+        .extras-container{ background:#fff9fb; border:1px dashed #ffd1e1; padding:12px; border-radius:16px; margin-top:5px; width:100%; }
+        .extras-title{ font-size:12px; font-weight:700; color:#ff007a; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+        .extra-item-row{ display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:6px 0; border-bottom:1px solid #f9ebf0; }
+        .extra-item-row:last-child{ border-bottom:none; }
+        .extra-left{ display:flex; align-items:center; gap:8px; cursor:pointer; }
+        .extra-left input{ width:16px; height:16px; accent-color:#ff007a; }
+        .extra-price{ font-weight:600; color:#666; }
+        /* BILLING & INPUTS */
+        .bill-box{ background:white; padding:20px; border-radius:24px; margin-top:20px; box-shadow:0 8px 30px rgba(0,0,0,.08); }
+        .bill-row{ display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; }
+        .total{ padding-top:15px; margin-top:15px; border-top:1px dashed #ddd; font-size:20px; font-weight:bold; color:#2e7d32; }
+        
+        /* 📍 DELIVERY DROP OPTIONS STYLES */
+        .drop-options-container { background: #f8f9fc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-top: 12px; }
+        .drop-options-title { font-size: 13px; font-weight: 700; color: #4a5568; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .drop-option-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: white; border: 1px solid #edf2f7; border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+        .drop-option-row:last-child { margin-bottom: 0; }
+        .drop-option-row input[type="radio"] { width: 18px; height: 18px; accent-color: #ff007a; cursor: pointer; }
+        .drop-option-label { font-size: 13px; font-weight: 600; color: #2d3748; cursor: pointer; display: flex; align-items: center; gap: 6px; width: 100%; }
+
+        .gps-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, #00b894, #00cec9); border: none; border-radius: 14px; color: white; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,184,148,0.2); }
+        .gps-btn.success { background: linear-gradient(135deg, #2e7d32, #4caf50); }
+        .dropdown-style { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid #ddd; margin-top: 12px; outline: none; background: white; font-size: 14px; }
+        .custom-note { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid #ddd; margin-top: 12px; outline: none; font-size: 14px; resize: none; height: 75px; }
+        .input-form input{ width:100%; padding:14px; border-radius:14px; border:1px solid #ddd; margin-top:12px; outline:none; }
+        .payment-box{ display:flex; gap:8px; margin-top:15px; }
+        .payment-option{ flex:1; background:#f5f5f7; padding:12px 6px; border-radius:16px; text-align:center; font-size:12px; font-weight:600; cursor:pointer; border:2px solid transparent; }
+        .payment-option.active{ border-color:#ff007a; background:#fff0f7; color:#ff007a; }
+        .digital-payment-panel { background: #f9f9fb; border: 1px solid #e1e1e6; border-radius: 18px; padding: 14px; margin-top: 12px; display: none; }
+        .copy-box { background: #fff; border: 1px dashed #ff007a; padding: 10px; border-radius: 12px; text-align: center; font-weight: bold; cursor: pointer; position: relative; }
+        .copy-toast { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #222; color: #fff; font-size: 11px; padding: 4px 8px; border-radius: 6px; display: none; }
+        .order-btn{ width:100%; padding:16px; margin-top:15px; background:linear-gradient(135deg,#5f0a87,#a4508b); border:none; border-radius:18px; font-size:16px; font-weight:bold; color:white; cursor:pointer; }
+        /* BOTTOM CART BAR */
+        .bottom-cart{ position:fixed; bottom:82px; left:12px; right:12px; background:linear-gradient(135deg,#ff007a,#ff4da6); color:white; padding:16px; border-radius:24px; display:none; justify-content:space-between; align-items:center; z-index:999; }
+        .checkout-btn{ background:white; border:none; padding:12px 18px; border-radius:14px; color:#ff007a; font-weight:bold; }
+        /* FOOTER NAV */
+        .bottom-nav{ position:fixed; bottom:0; left:0; right:0; background:white; display:flex; justify-content:space-around; padding:14px 0; border-top-left-radius:28px; border-top-right-radius:28px; box-shadow:0 -5px 20px rgba(0,0,0,.1); z-index:9999; }
+        .nav-item{ display:flex; flex-direction:column; align-items:center; font-size:12px; font-weight:600; color:#777; cursor:pointer; }
+        .nav-item.active{ color:#ff007a; }
+        #loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 0; font-weight: bold; color: #5f0a87; }
+        .spinner { border: 4px solid rgba(0,0,0,0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #ff007a; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 🛍️ SUGGESTION SCROLLBAR STYLES (FOODPANDA STYLE) */
+        .suggest-section { margin-top: 25px; padding: 5px 0; }
+        .suggest-title { font-size: 14px; font-weight: 700; color: #ff007a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .suggest-scroll-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scroll-bar-width: none; scroll-snap-type: x mandatory; }
+        .suggest-scroll-container::-webkit-scrollbar { display: none; }
+        .suggest-card { min-width: 150px; max-width: 150px; background: #fff; border: 1px solid #ebebeb; border-radius: 18px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.03); scroll-snap-align: start; }
+        .suggest-img { width: 100%; height: 80px; background-size: cover; background-position: center; border-radius: 12px; margin-bottom: 8px; }
+        .suggest-name { font-size: 12px; font-weight: 700; color: #333; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 32px; }
+        .suggest-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .suggest-price { font-size: 12px; font-weight: bold; color: #ff007a; }
+        .suggest-add-btn { background: #fff0f7; border: 1px solid #ffd1e1; color: #ff007a; padding: 4px 10px; border-radius: 30px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        
+        /* 🚴 RIDER TIPS STYLES */
+        .tips-section { background: #fef8f9; border: 1px solid #ffdce6; border-radius: 18px; padding: 14px; margin-top: 15px; }
+        .tips-title { font-size: 13px; font-weight: 700; color: #444; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .tips-subtitle { font-size: 11px; color: #666; margin-bottom: 10px; }
+        .tips-btn-grid { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .tip-btn { background: #fff; border: 1px solid #ddd; padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: bold; cursor: pointer; color: #444; transition: 0.2s; flex: 1; text-align: center; min-width: 60px; }
+        .tip-btn.active { background: #ff007a; border-color: #ff007a; color: #fff; }
+        .custom-tip-input { width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 12px; outline: none; display: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div>
+                <div style="font-size:13px;opacity:.8;">লোকেশন</div>
+                <div style="font-size:22px;font-weight:bold;">📍 Live Delivery App</div>
+            </div>
+            <div class="logo-box" onclick="goBack()">
+                <img src="https://i.postimg.cc/SshWLpY3/20260519-183428.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 22px;">
+            </div>
+        </div>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search restaurants, grocery..." oninput="searchShop()">
+    </header>
+
+    <div class="container">
+        <div id="loader">
+            <div class="spinner"></div>
+            <div>গুগল শিট থেকে তথ্য লোড হচ্ছে...</div>
+        </div>
+
+        <div id="homePage" style="display:none;">
+            <div class="hero-banner">
+                <div>
+                    <h2>Epic Premium Deals</h2>
+                    <p>Up to 50% OFF today</p>
+                    <button class="hero-btn">Shop Now</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500">
+            </div>
+            <div class="section-title"> ✨ Categories </div>
+            <div class="category-grid">
+                <div class="category-item active" onclick="filterCategory('Food', this)"> <div class="category-img">🍔</div> <div class="category-name">Food</div> </div>
+                <div class="category-item" onclick="filterCategory('Grocery', this)"> <div class="category-img">🛒</div> <div class="category-name">Grocery</div> </div>
+                <div class="category-item" onclick="filterCategory('Medicine', this)"> <div class="category-img">💊</div> <div class="category-name">Medicine</div> </div>
+                <div class="category-item" onclick="filterCategory('Courier', this)"> <div class="category-img">📦</div> <div class="category-name">Courier</div> </div>
+                <div class="category-item" onclick="filterCategory('Cafe', this)"> <div class="category-img">☕</div> <div class="category-name">Cafe</div> </div>
+            </div>
+            <div class="section-title"> 🔥 Popular Shops </div>
+            <div id="shopContainer"></div>
+        </div>
+
+        <div id="menuPage" style="display:none;">
+            <button class="back-btn" onclick="goBack()"> ← Back </button>
+            <h2 id="shopTitle" style="font-size: 24px; font-weight: 700; margin-bottom: 15px;"></h2>
+            
+            <div id="checkoutCartContainer" style="display:none; background:white; border-radius:24px; padding:16px; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.04);">
+                <div style="font-weight:700; font-size:15px; color:#5f0a87; margin-bottom:10px; border-bottom:1px solid #f0f0f4; padding-bottom:8px;"><i class="fa-solid fa-basket-shopping"></i> আপনার কার্টের আইটেমসমূহ:</div>
+                <div id="checkoutCartItems"></div>
+            </div>
+
+            <div id="menuContainer"></div>
+            
+            <div class="suggest-section" id="suggestionSection" style="display:none;">
+                <div class="suggest-title"><i class="fa-solid fa-wand-magic-sparkles"></i> কাস্টমাররা সাথে এইগুলোও নিচ্ছেন:</div>
+                <div class="suggest-scroll-container" id="suggestScrollContainer"></div>
+            </div>
+
+            <div class="bill-box">
+                <div style="font-weight:bold;font-size:18px;margin-bottom:15px;"> 🧾 Order Summary </div>
+                <div class="bill-row"> <span>Subtotal</span> <span id="subtotal">0 ৳</span> </div>
+                <div class="bill-row"> <span>VAT (3.5%)</span> <span id="vatCharge">0 ৳</span> </div>
+                <div class="bill-row"> <span>Platform Fee</span> <span id="platformFee">4.80 ৳</span> </div>
+                <div class="bill-row"> <span>Delivery Fee <span id="distanceLabel" style="font-size:11px;color:#666;">(GPS ভিত্তিক)</span></span> <span id="deliveryFee">55 ৳</span> </div>
+                
+                <div class="bill-row" id="weightChargeRow" style="display:none;"> 
+                    <span>Extra Weight Charge (<span id="totalWeightLabel">0.00</span> kg)</span> 
+                    <span id="weightFee" style="font-weight:600;">0 ৳</span> 
+                </div>
+
+                <div class="bill-row" id="riderTipRow" style="display:none; color:#2e7d32; font-weight:600;"> <span>Rider Tip</span> <span id="tipFeeView">0 ৳</span> </div>
+                
+                <div class="bill-row total"> <span>Total</span> <span id="total">0 ৳</span> </div>
+                
+                <div class="tips-section">
+                    <div class="tips-title"><i class="fa-solid fa-motorcycle"></i> রাইডারকে অনলাইন টিপস দিন</div>
+                    <div class="tips-subtitle">আপনার রাইডারকে ধন্যবাদ জানাতে একটি টিপস সিলেক্ট করুন (১০০% রাইডার পাবেন)</div>
+                    <div class="tips-btn-grid">
+                        <div class="tip-btn" onclick="selectTip(10, this)">১০ ৳</div>
+                        <div class="tip-btn" onclick="selectTip(20, this)">২০ ৳</div>
+                        <div class="tip-btn" onclick="selectTip(30, this)">৩০ ৳</div>
+                        <div class="tip-btn" onclick="selectTip(50, this)">৫০ ৳</div>
+                        <div class="tip-btn" id="customTipBtn" onclick="toggleCustomTip()">Custom</div>
+                    </div>
+                    <input type="number" id="customTipInput" class="custom-tip-input" placeholder="আপনার ইচ্ছামতো টিপস এমাউন্ট লিখুন" oninput="calculateCustomTip()">
+                </div>
+
+                <div class="payment-box">
+                    <div class="payment-option active" onclick="selectPayment('Cash', this)"> 💵 Cash </div>
+                    <div class="payment-option" onclick="selectPayment('bKash', this)"> 📱 bKash </div>
+                    <div class="payment-option" onclick="selectPayment('Nagad', this)"> 🍊 Nagad </div>
+                </div>
+
+                <div class="digital-payment-panel" id="digitalPanel">
+                    <div class="copy-box" onclick="copyNumber()">
+                        <span id="paymentMethodName">bKash</span> নাম্বার: 
+                        <span id="vendorNumber" style="color:#ff007a;">01759647031</span>
+                        <i class="fa-regular fa-copy"></i>
+                        <div class="copy-toast" id="copyToast">Copied!</div>
+                    </div>
+                    <input type="number" id="payLastDigits" placeholder="যে নাম্বার থেকে টাকা পাঠিয়েছেন তার শেষ ৪ ডিজিট">
+                    <input type="text" id="payTxid" placeholder="Transaction ID (TxID) লিখুন">
+                </div>
+
+                <div class="input-form">
+                    
+                    <div class="drop-options-container">
+                        <div class="drop-options-title"><i class="fa-solid fa-truck-ramp-box"></i> ডেলিভারি কোথায় ড্রপ করা হবে?</div>
+                        <div class="drop-option-row" onclick="handleDropTypeChange('current')">
+                            <input type="radio" id="dropCurrent" name="deliveryDropType" value="Current Location" checked>
+                            <label for="dropCurrent" class="drop-option-label">📍 আমার বর্তমান লোকেশন (Current Location)</label>
+                        </div>
+                        <div class="drop-option-row" onclick="handleDropTypeChange('home_office')">
+                            <input type="radio" id="dropHomeOffice" name="deliveryDropType" value="Home / Office">
+                            <label for="dropHomeOffice" class="drop-option-label">🏠 আমার বাসা / অফিস (Home / Office)</label>
+                        </div>
+                        <div class="drop-option-row" onclick="handleDropTypeChange('gift')">
+                            <input type="radio" id="dropGift" name="deliveryDropType" value="Send as a Gift">
+                            <label for="dropGift" class="drop-option-label">🎁 প্রিয়জনকে উপহার দিন (Send as a Gift)</label>
+                        </div>
+                    </div>
+
+                    <div id="gpsBtnContainer">
+                        <button class="gps-btn" id="gpsBtn" onclick="getLocation()">
+                            <i class="fa-solid fa-location-crosshairs"></i> 📍 নিখুঁত লোকেশন শেয়ার করুন
+                        </button>
+                    </div>
+                    
+                    <input type="text" id="custName" placeholder="আপনার নাম">
+                    <input type="text" id="custPhone" placeholder="মোবাইল নাম্বার">
+                    <input type="text" id="custAddress" placeholder="সম্পূর্ণ ঠিকানা (বাসা/রোড/এলাকা)" oninput="calculateDistanceCharge()">
+                    <input type="text" id="custLandmark" placeholder="আশেপাশের পরিচিত ল্যান্ডমার্ক (যেমন: স্কুল/মসজিদের পাশে)">
+                    
+                    <select id="deliveryInstruction" class="dropdown-style">
+                        <option value="📞 সরাসরি আমাকে কল দিন">📞 সরাসরি আমাকে কল দিন</option>
+                        <option value="🚪 দরজার সামনে রেখে দিন">🚪 দরজার সামনে রেখে দিন</option>
+                        <option value="👮 সিকিউরিটি/গার্ডের কাছে দিন">👮 সিকিউরিটি/গার্ডের কাছে দিন</option>
+                        <option value="🏪 পাশের দোকানে রেখে দিন">🏪 পাশের দোকানে রেখে দিন</option>
+                    </select>
+
+                    <textarea id="custSpecialInstruction" class="custom-note" placeholder="ডেলিভারি নিয়ে কোনো বিশেষ নির্দেশনা থাকলে লিখুন (যেমন: আমাকে না পেলে কার কাছে দিবেন)"></textarea>
+                    
+                    <button class="order-btn" onclick="confirmOrder()"> Confirm Order </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-cart" id="cartBar">
+        <div>
+            <div style="font-size:13px;"> <span id="cartCount">0</span> Items Added </div>
+            <div style="font-size:18px;font-weight:bold;"> <span id="cartTotal">0</span> ৳ </div>
+        </div>
+        <button class="checkout-btn" onclick="switchToCheckoutView()"> Checkout </button>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="goBack()"> 🍔 <span>Food</span> </div>
+        <div class="nav-item" onclick="filterCategory('Grocery', document.querySelectorAll('.category-item')[1])"> 🛒 <span>Grocery</span> </div>
+        <div class="nav-item" onclick="document.getElementById('searchInput').focus(); window.scrollTo({top:0, behavior:'smooth'});"> 🔍 <span>Search</span> </div>
+        <div class="nav-item" onclick="switchToCheckoutView()"> 🛍️ <span>Cart</span> </div>
+        <div class="nav-item"> 👤 <span>Account</span> </div>
+    </div>
+
+    <script>
+        const sheetId = '1kaBdTX7LBrVpTDvkc6eB1LwmUEZHV_kyvYDcRSO4gKQ';
+        const itemsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Form%20responses%201`;
+        const shopsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Form%20responses%202`;
+
+        const myWhatsAppNumber = "8801759647031"; 
+        const adminBkashNumber = "01759647031"; 
+        const adminNagadNumber = "01759647031";
+
+        let shops = [];
+        let cart = {}; 
+        let selectedExtras = {}; 
+        let currentShop = null;
+        let selectedPaymentMethod = "Cash";
+        let isCheckoutMode = false; 
+        
+        let userLat = null;
+        let userLon = null;
+        let selectedDropType = "Current Location"; // Default Value
+        
+        let currentCalculatedDeliveryFee = 55; 
+        let extraWeightFeeGlobal = 0;
+        let totalWeightGlobal = 0;
+        let selectedRiderTipGlobal = 0; 
+        const platformFeeAmount = 4.80; 
+        const vatRate = 0.035; 
+
+        function getRestaurantCoords(addressText) {
+            if (!addressText) return { lat: 23.9010, lon: 90.2647, zone: "savar" };
+            let address = addressText.toLowerCase();
+            let coords = { lat: 23.9010, lon: 90.2647, zone: "savar" };
+            if (address.includes("uttara")) {
+                coords.lat = 23.8759; coords.lon = 90.3795; coords.zone = "uttara";
+            } else if (address.includes("ashulia") || address.includes("rustam pur")) {
+                coords.lat = 23.9314; coords.lon = 90.2925; coords.zone = "ashulia";
+            } else if (address.includes("savar")) {
+                coords.lat = 23.9010; coords.lon = 90.2647; coords.zone = "savar";
+            }
+            return coords;
+        }
+
+        function getCustomerZoneFromText(addressText) {
+            if (!addressText) return "savar";
+            let text = addressText.toLowerCase();
+            if (text.includes("uttara") || text.includes("sector") || text.includes("road 11") || text.includes("road 15")) return "uttara";
+            if (text.includes("ashulia") || text.includes("rustam pur")) return "ashulia";
+            return "savar";
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDataFromGoogleSheets();
+            loadSavedCustomerInfo();
+        });
+
+        async function loadDataFromGoogleSheets() {
+            try {
+                const [shopsResponse, itemsResponse] = await Promise.all([
+                    fetch(shopsUrl),
+                    fetch(itemsUrl)
+                ]);
+
+                const shopsText = await shopsResponse.text();
+                const itemsText = await itemsResponse.text();
+
+                const cleanShopsJSON = JSON.parse(shopsText.substring(47, shopsText.length - 2));
+                const cleanItemsJSON = JSON.parse(itemsText.substring(47, itemsText.length - 2));
+
+                const formattedShops = parseShops(cleanShopsJSON.table.rows);
+                const formattedItems = parseItems(cleanItemsJSON.table.rows);
+
+                shops = formattedShops.map(shop => {
+                    shop.items = formattedItems.filter(item => item.shopName === shop.name || shop.name.toLowerCase().includes(item.shopName.toLowerCase()));
+                    return shop;
+                });
+
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('homePage').style.display = 'block';
+
+                renderShops();
+            } catch (error) {
+                console.error("ডেটা লোডে সমস্যা:", error);
+                alert("দুঃখিত বন্ধু! গুগল শিট থেকে ডেটা পাওয়া যায়নি।");
+            }
+        }
+
+        function parseShops(rows) {
+            return rows.map((row, index) => {
+                const shopName = row.c[1]?.v ? row.c[1].v.toString().trim() : 'অজানা রেস্টুরেন্ট';
+                const shopAddressInput = row.c[2]?.v ? row.c[2].v.toString().trim() : 'Savar, Dhaka';
+                const shopImg = row.c[3]?.v || "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500";
+                
+                let metaTags = "Food • Premium Delivery";
+                if(shopName.includes("Grocery") || shopName.includes("মাট") || shopName.includes("স্টোর")) metaTags = "Grocery • Fresh Goods";
+
+                return {
+                    id: `shop-${index}`,
+                    name: shopName,
+                    address: shopAddressInput,
+                    img: shopImg,
+                    discount: "Premium Deals",
+                    meta: metaTags
+                };
+            });
+        }
+
+        function parseItems(rows) {
+            return rows.map((row, index) => {
+                const sName = row.c[1]?.v ? row.c[1].v.toString().trim() : '';
+                const iName = row.c[2]?.v || 'অজানা আইটেম';
+                const iPrice = parseFloat(row.c[3]?.v) || 0;
+                const iImg = row.c[4]?.v || "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300";
+                
+                let itemWeight = 0.25; 
+                if(sName.toLowerCase().includes("grocery") || sName.includes("মাট") || sName.includes("স্টোর")) {
+                    itemWeight = 1.0; 
+                }
+                if(row.c[6]?.v) {
+                    itemWeight = parseFloat(row.c[6].v) || itemWeight;
+                }
+
+                let extrasArray = [];
+                const rawExtras = row.c[5]?.v ? row.c[5].v.toString().trim() : '';
+                
+                if (rawExtras) {
+                    const pairs = rawExtras.split(',');
+                    pairs.forEach(pair => {
+                        const parts = pair.split(':');
+                        if (parts.length === 2) {
+                            extrasArray.push({
+                                name: parts[0].trim(),
+                                price: parseFloat(parts[1].trim()) || 0
+                            });
+                        }
+                    });
+                }
+
+                return {
+                    id: `item-${index}`,
+                    shopName: sName,
+                    name: iName,
+                    price: iPrice,
+                    img: iImg,
+                    weight: itemWeight,
+                    extras: extrasArray
+                };
+            });
+        }
+
+        function renderShops(data = shops){
+            const container = document.getElementById("shopContainer");
+            container.innerHTML = "";
+            if(data.length === 0){
+                container.innerHTML = "<p style='text-align:center;color:#666;padding:20px;'>কোনো দোকান পাওয়া যায়নি বন্ধু।</p>";
+                return;
+            }
+            data.forEach(shop=>{
+                container.innerHTML += `
+                    <div class="restaurant-card" onclick="openShop('${shop.id}')">
+                        <div class="card-image-box" style="background-image:url('${shop.img}')" >
+                            <div class="badge-discount"> ${shop.discount} </div>
+                            <div class="delivery-time"> ⚡ 25 min </div>
+                        </div>
+                        <div class="card-details">
+                            <div class="res-title-row">
+                                <div class="res-title"> ${shop.name} </div>
+                                <div class="res-rating"> ⭐ 4.9 </div>
+                            </div>
+                            <div class="res-meta"> 📍 ${shop.address} <br> <span style="font-size:11px;color:#999;">${shop.meta}</span></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterCategory(categoryName, element) {
+            document.querySelectorAll('.category-item').forEach(item => item.classList.remove('active'));
+            if(element) element.classList.add('active');
+            if(categoryName.toLowerCase() === 'food') {
+                renderShops(shops);
+            } else {
+                const filtered = shops.filter(shop => shop.name.toLowerCase().includes(categoryName.toLowerCase()) || shop.meta.toLowerCase().includes(categoryName.toLowerCase()));
+                renderShops(filtered);
+            }
+        }
+
+        function searchShop(){
+            const value = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = shops.filter(shop=> shop.name.toLowerCase().includes(value) || shop.meta.toLowerCase().includes(value));
+            renderShops(filtered);
+        }
+
+        function openShop(id){
+            currentShop = shops.find(shop=>shop.id===id);
+            document.getElementById("homePage").style.display = "none";
+            document.getElementById("menuPage").style.display = "block";
+            document.getElementById("shopTitle").innerText = currentShop.name;
+            
+            isCheckoutMode = false;
+            document.getElementById("checkoutCartContainer").style.display = "none";
+            document.getElementById("suggestionSection").style.display = "none";
+            document.getElementById("menuContainer").style.display = "block";
+
+            calculateDistanceCharge();
+            renderMenu();
+        }
+
+        function renderMenu(){
+            if (isCheckoutMode) {
+                renderCheckoutCartView();
+                return;
+            }
+
+            const container = document.getElementById("menuContainer");
+            container.innerHTML = "";
+            
+            if(!currentShop.items || currentShop.items.length === 0){
+                container.innerHTML = "<p style='text-align:center;padding:20px;color:#666;'>এই দোকানে কোনো আইটেম খুঁজে পাওয়া যায়নি বন্ধু।</p>";
+                return;
+            }
+
+            currentShop.items.forEach(item=>{
+                const qty = cart[item.id] || 0;
+                
+                let extrasHtml = "";
+                if (qty > 0 && item.extras && item.extras.length > 0) {
+                    extrasHtml = `<div class="extras-container">
+                        <div class="extras-title"><i class="fa-solid fa-circle-plus"></i> এক্সট্রা যোগ করুন (ঐচ্ছিক):</div>`;
+                    
+                    item.extras.forEach((ex, exIdx) => {
+                        const isChecked = isExtraSelected(item.id, ex.name) ? "checked" : "";
+                        extrasHtml += `
+                            <div class="extra-item-row">
+                                <label class="extra-left">
+                                    <input type="checkbox" ${isChecked} onchange="toggleExtra('${item.id}', '${ex.name}', ${ex.price}, this)">
+                                    <span>${ex.name}</span>
+                                </label>
+                                <span class="extra-price">+${ex.price} ৳</span>
+                            </div>
+                        `;
+                    });
+                    extrasHtml += `</div>`;
+                }
+
+                container.innerHTML += `
+                    <div class="menu-item-card">
+                        <div class="menu-main-row">
+                            <div class="item-img" style="background-image:url('${item.img}')" ></div>
+                            <div class="item-info">
+                                <div class="item-name"> ${item.name} </div>
+                                <div class="item-price"> ${item.price} ৳ </div>
+                            </div>
+                            <div>
+                                ${qty > 0 ? `
+                                    <div class="quantity-box">
+                                        <button class="qty-btn" onclick="changeQty('${item.id}',-1)"> - </button>
+                                        <div class="qty-text"> ${qty} </div>
+                                        <button class="qty-btn" onclick="changeQty('${item.id}',1)"> + </button>
+                                    </div>
+                                ` : `
+                                    <button class="add-btn" onclick="changeQty('${item.id}',1)"> + Add </button>
+                                `}
+                            </div>
+                        </div>
+                        ${extrasHtml}
+                    </div>
+                `;
+            });
+            updateBill();
+        }
+
+        function renderCheckoutCartView() {
+            const container = document.getElementById("checkoutCartItems");
+            container.innerHTML = "";
+            let hasItems = false;
+
+            currentShop.items.forEach(item => {
+                const qty = cart[item.id] || 0;
+                if (qty > 0) {
+                    hasItems = true;
+                    let selectedExtrasText = "";
+                    if (selectedExtras[item.id] && selectedExtras[item.id].length > 0) {
+                        selectedExtrasText = `<div style="font-size:11px; color:#666; margin-top:2px; padding-left:5px; border-left:2px solid #ff007a;">
+                            ${selectedExtras[item.id].map(ex => `+ ${ex.name} (${ex.price} ৳)`).join(', ')}
+                        </div>`;
+                    }
+
+                    container.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed #f0f0f4;">
+                            <div style="flex:1; padding-right:10px;">
+                                <div style="font-size:14px; font-weight:600;">${item.name}</div>
+                                ${selectedExtrasText}
+                                <div style="font-size:12px; font-weight:bold; color:#ff007a; margin-top:3px;">${item.price} ৳</div>
+                            </div>
+                            <div class="quantity-box" style="height:32px;">
+                                <button class="qty-btn" style="width:28px; height:32px; font-size:14px;" onclick="changeQty('${item.id}',-1)">-</button>
+                                <div class="qty-text" style="font-size:13px; min-width:20px;">${qty}</div>
+                                <button class="qty-btn" style="width:28px; height:32px; font-size:14px;" onclick="changeQty('${item.id}',1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!hasItems) {
+                container.innerHTML = "<p style='text-align:center; color:#666; font-size:13px; padding:10px 0;'>কার্টটি খালি বন্ধু!</p>";
+                goBack();
+            }
+        }
+
+        function renderSuggestionsScrollbar() {
+            const container = document.getElementById("suggestScrollContainer");
+            container.innerHTML = "";
+            
+            if (!currentShop || !currentShop.items) return;
+
+            let unorderdItems = currentShop.items.filter(item => !cart[item.id]);
+
+            unorderdItems.forEach(item => {
+                container.innerHTML += `
+                    <div class="suggest-card">
+                        <div class="suggest-img" style="background-image:url('${item.img}')"></div>
+                        <div class="suggest-name">${item.name}</div>
+                        <div class="suggest-bottom">
+                            <span class="suggest-price">${item.price} ৳</span>
+                            <button class="suggest-add-btn" onclick="changeQty('${item.id}', 1)">+ Add</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            let allUniqueExtras = [];
+            currentShop.items.forEach(item => {
+                if (item.extras && item.extras.length > 0) {
+                    item.extras.forEach(ex => {
+                        if (!allUniqueExtras.some(e => e.name === ex.name)) {
+                            allUniqueExtras.push({ name: ex.name, price: ex.price, parentItemId: item.id });
+                        }
+                    });
+                }
+            });
+
+            allUniqueExtras.forEach(ex => {
+                const isAlreadySelected = isExtraSelected(ex.parentItemId, ex.name);
+                
+                if (!isAlreadySelected && cart[ex.parentItemId] > 0) {
+                    container.innerHTML += `
+                        <div class="suggest-card" style="border: 1px dashed #ffd1e1; background: #fffbfd;">
+                            <div class="suggest-img" style="background-image:url('https://images.unsplash.com/photo-1608833977737-14238e8ec43b?w=200'); opacity:0.8;"></div>
+                            <div class="suggest-name" style="color:#ff007a;">➕ এক্সট্রা: ${ex.name}</div>
+                            <div class="suggest-bottom">
+                                <span class="suggest-price">${ex.price} ৳</span>
+                                <button class="suggest-add-btn" style="background:#ff007a; color:#fff;" onclick="addSuggestionExtraDirectly('${ex.parentItemId}', '${ex.name}', ${ex.price})">Add</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (container.innerHTML === "") {
+                document.getElementById("suggestionSection").style.display = "none";
+            } else {
+                document.getElementById("suggestionSection").style.display = "block";
+            }
+        }
+
+        function addSuggestionExtraDirectly(itemId, extraName, extraPrice) {
+            if (!selectedExtras[itemId]) selectedExtras[itemId] = [];
+            if (!selectedExtras[itemId].some(ex => ex.name === extraName)) {
+                selectedExtras[itemId].push({ name: extraName, price: extraPrice });
+            }
+            switchToCheckoutView();
+        }
+
+        function switchToCheckoutView() {
+            let totalItems = 0;
+            shops.forEach(shop => {
+                if(shop.items) {
+                    shop.items.forEach(item => {
+                        if(cart[item.id]) totalItems += cart[item.id];
+                    });
+                }
+            });
+
+            if (totalItems === 0) {
+                alert("দয়া করে প্রথমে কার্টে কিছু আইটেম যোগ করুন বন্ধু!");
+                return;
+            }
+
+            isCheckoutMode = true;
+            document.getElementById("menuContainer").style.display = "none";
+            document.getElementById("checkoutCartContainer").style.display = "block";
+            
+            renderCheckoutCartView();
+            renderSuggestionsScrollbar();
+            updateBill();
+            scrollBottom();
+        }
+
+        function changeQty(id, change){
+            cart[id] = (cart[id] || 0) + change;
+            if(cart[id] <= 0) {
+                delete cart[id];
+                delete selectedExtras[id]; 
+            }
+            
+            if (isCheckoutMode) {
+                renderCheckoutCartView();
+                renderSuggestionsScrollbar();
+                updateBill();
+            } else {
+                renderMenu();
+            }
+        }
+
+        function toggleExtra(itemId, extraName, extraPrice, checkbox) {
+            if (!selectedExtras[itemId]) selectedExtras[itemId] = [];
+            
+            if (checkbox.checked) {
+                selectedExtras[itemId].push({ name: extraName, price: extraPrice });
+            } else {
+                selectedExtras[itemId] = selectedExtras[itemId].filter(ex => ex.name !== extraName);
+            }
+            updateBill();
+        }
+
+        function isExtraSelected(itemId, extraName) {
+            if (!selectedExtras[itemId]) return false;
+            return selectedExtras[itemId].some(ex => ex.name === extraName);
+        }
+
+        // 🛍️ NEW: HANDLING DELIVERY LOCATION TYPE RADIO BUTTON CLICK
+        function handleDropTypeChange(type) {
+            const gpsContainer = document.getElementById("gpsBtnContainer");
+            
+            if (type === 'current') {
+                document.getElementById("dropCurrent").checked = true;
+                selectedDropType = "Current Location";
+                gpsContainer.style.display = "block"; // শো জিপিএস বাটন
+            } else if (type === 'home_office') {
+                document.getElementById("dropHomeOffice").checked = true;
+                selectedDropType = "Home / Office";
+                gpsContainer.style.display = "none"; // হাইড জিপিএস বাটন
+                userLat = null; userLon = null; // জিপিএস ভ্যালু রিসেট
+                calculateDistanceCharge();
+            } else if (type === 'gift') {
+                document.getElementById("dropGift").checked = true;
+                selectedDropType = "Send as a Gift";
+                gpsContainer.style.display = "none"; // হাইড জিপিএস বাটন
+                userLat = null; userLon = null; // জিপিএস ভ্যালু রিসেট
+                calculateDistanceCharge();
+            }
+        }
+
+        // 🛠️ FIXED: ADVANCED ROBUST LOCATION FOR ALL DEVICES (NO HANG)
+        function getLocation() {
+            const btn = document.getElementById("gpsBtn");
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> লোকেশন খোঁজা হচ্ছে...`;
+            btn.disabled = true; // ডাবল ক্লিক লক
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLat = position.coords.latitude; 
+                        userLon = position.coords.longitude;
+                        
+                        btn.classList.add("success");
+                        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> 📍 লোকেশন সফলভাবে লিংকড!`;
+                        btn.disabled = false;
+                        
+                        calculateDistanceCharge();
+                    },
+                    (error) => {
+                        console.error("GPS Error:", error);
+                        
+                        if (error.code === 1) {
+                            alert("বন্ধু, আপনি লোকেশন পারমিশন 'Block' করেছেন। দয়া করে ব্রাউজারের ওপরের তালা চিহ্নে ক্লিক করে পারমিশন 'Allow' করে দিন।");
+                        } else {
+                            alert("আপনার ফোনের জিপিএস (GPS) বন্ধ আছে অথবা নেটওয়ার্ক দুর্বল বন্ধু। দয়া করে জিপিএস অন করুন অথবা নিচে আপনার সম্পূর্ণ ঠিকানাটি ম্যানুয়ালি লিখে দিন।");
+                        }
+                        
+                        btn.classList.remove("success");
+                        btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> 📍 নিখুঁত লোকেশন শেয়ার করুন`;
+                        btn.disabled = false;
+                        
+                        userLat = null; userLon = null;
+                        calculateDistanceCharge();
+                    },
+                    {
+                        enableHighAccuracy: false, // দ্রুত সেলুলার নেটওয়ার্ক থেকে লোকেশন নেওয়ার জন্য false করলাম
+                        timeout: 5000,             // ৫ সেকেন্ডের মধ্যে ব্যাক রেসপন্স না আসলে এরর ক্যাচ করবে (হ্যাং হবে না)
+                        maximumAge: 60000          // ১ মিনিটের পুরনো ক্যাশ ডাটা থাকলে সরাসরি এক্সেপ্ট করবে দ্রুত কাজের জন্য
+                    }
+                );
+            } else {
+                alert("আপনার ব্রাউজারে জিপিএস (GPS) ফিচারটি সাপোর্ট করছে না বন্ধু।");
+                btn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> 📍 নিখুঁত লোকেশন শেয়ার করুন`;
+                btn.disabled = false;
+                userLat = null; userLon = null;
+                calculateDistanceCharge();
+            }
+        }
+
+        function calculateDistanceCharge() {
+            if (!currentShop) return;
+            let finalUserLat = userLat; let finalUserLon = userLon;
+            const custAddressInput = document.getElementById("custAddress") ? document.getElementById("custAddress").value : "";
+
+            if (!finalUserLat || !finalUserLon) {
+                let fallbackCoords = getRestaurantCoords(custAddressInput);
+                finalUserLat = fallbackCoords.lat; finalUserLon = fallbackCoords.lon;
+            }
+            const shopCoords = getRestaurantCoords(currentShop.address);
+
+            const R = 6371;
+            const dLat = (finalUserLat - shopCoords.lat) * Math.PI / 180;
+            const dLon = (finalUserLon - shopCoords.lon) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(shopCoords.lat * Math.PI / 180) * Math.cos(finalUserLat * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            let distance = R * c;
+
+            const shopZone = shopCoords.zone;
+            const userZone = getCustomerZoneFromText(custAddressInput);
+            if (shopZone === userZone && distance > 10) distance = 2.4;
+
+            let calculatedFee = 55;
+            if (distance > 2) {
+                let extraKm = distance - 2;
+                calculatedFee += Math.round(extraKm * 12);
+            }
+            currentCalculatedDeliveryFee = calculatedFee;
+
+            const distanceLabelElement = document.getElementById("distanceLabel");
+            const deliveryFeeElement = document.getElementById("deliveryFee");
+            
+            if (distanceLabelElement) {
+                if (userLat && userLon) {
+                    distanceLabelElement.innerText = `(${distance.toFixed(2)} কিমি দূরত্ব)`;
+                } else {
+                    distanceLabelElement.innerText = `(অ্যাড্রেস ভিত্তিক)`;
+                }
+            }
+            if (deliveryFeeElement) deliveryFeeElement.innerText = `${calculatedFee} ৳`;
+
+            updateBill();
+        }
+
+        function selectTip(amount, element) {
+            document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById("customTipInput").style.display = "none";
+            
+            if(element) element.classList.add('active');
+            selectedRiderTipGlobal = amount;
+            updateBill();
+        }
+
+        function toggleCustomTip() {
+            document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById("customTipBtn").classList.add('active');
+            
+            const customInput = document.getElementById("customTipInput");
+            customInput.style.display = "block";
+            customInput.focus();
+            calculateCustomTip();
+        }
+
+        function calculateCustomTip() {
+            const val = parseFloat(document.getElementById("customTipInput").value) || 0;
+            selectedRiderTipGlobal = val;
+            updateBill();
+        }
+
+        function updateBill(){
+            let subtotal = 0;
+            let totalItems = 0;
+            let totalWeight = 0;
+            let isGroceryOrder = false; 
+            
+            if(currentShop && (currentShop.name.toLowerCase().includes("grocery") || currentShop.name.includes("মাট") || currentShop.name.includes("স্টোর"))) {
+                isGroceryOrder = true;
+            }
+
+            shops.forEach(shop=>{
+                if(shop.items) {
+                    shop.items.forEach(item=>{
+                        if(cart[item.id]){
+                            subtotal += item.price * cart[item.id];
+                            totalItems += cart[item.id];
+                            totalWeight += (item.weight || 0.25) * cart[item.id];
+                            
+                            if (selectedExtras[item.id]) {
+                                selectedExtras[item.id].forEach(ex => {
+                                    subtotal += ex.price * cart[item.id];
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            totalWeightGlobal = totalWeight;
+
+            let extraWeightFee = 0;
+            const weightChargeRow = document.getElementById("weightChargeRow");
+            const totalWeightLabel = document.getElementById("totalWeightLabel");
+            const weightFeeElement = document.getElementById("weightFee");
+            
+            if(isGroceryOrder && totalWeight >= 8.5) {
+                extraWeightFee = Math.round(totalWeight * 7.88);
+                if(weightChargeRow) weightChargeRow.style.display = "flex";
+                if(totalWeightLabel) totalWeightLabel.innerText = totalWeight.toFixed(2);
+                if(weightFeeElement) {
+                    weightFeeElement.innerText = extraWeightFee + " ৳";
+                    weightFeeElement.style.color = "#ff007a";
+                }
+            } else {
+                if(weightChargeRow) weightChargeRow.style.display = "none";
+            }
+            extraWeightFeeGlobal = extraWeightFee;
+
+            const riderTipRow = document.getElementById("riderTipRow");
+            const tipFeeView = document.getElementById("tipFeeView");
+            if(selectedRiderTipGlobal > 0) {
+                if(riderTipRow) riderTipRow.style.display = "flex";
+                if(tipFeeView) tipFeeView.innerText = selectedRiderTipGlobal + " ৳";
+            } else {
+                if(riderTipRow) riderTipRow.style.display = "none";
+            }
+
+            if(subtotal > 0) {
+                let calculatedVat = Math.round(subtotal * vatRate);
+                let currentDelivery = currentCalculatedDeliveryFee;
+                let currentPlatform = platformFeeAmount;
+                
+                let finalTotal = subtotal + calculatedVat + currentPlatform + currentDelivery + extraWeightFee + selectedRiderTipGlobal;
+
+                document.getElementById("subtotal").innerText = subtotal + " ৳";
+                document.getElementById("vatCharge").innerText = calculatedVat + " ৳";
+                document.getElementById("platformFee").innerText = currentPlatform.toFixed(2) + " ৳";
+                document.getElementById("deliveryFee").innerText = currentDelivery + " ৳";
+                document.getElementById("total").innerText = Math.round(finalTotal) + " ৳";
+                
+                document.getElementById("cartCount").innerText = totalItems;
+                document.getElementById("cartTotal").innerText = Math.round(finalTotal);
+                document.getElementById("cartBar").style.display = "flex";
+            } else {
+                document.getElementById("subtotal").innerText = "0 ৳";
+                document.getElementById("vatCharge").innerText = "0 ৳";
+                document.getElementById("deliveryFee").innerText = "55 ৳";
+                document.getElementById("total").innerText = "0 ৳";
+                document.getElementById("cartBar").style.display = "none";
+            }
+        }
+
+        function selectPayment(method, element) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('active'));
+            element.classList.add('active');
+            selectedPaymentMethod = method;
+            const panel = document.getElementById("digitalPanel");
+            const methodNameSpan = document.getElementById("paymentMethodName");
+            const vendorNumSpan = document.getElementById("vendorNumber");
+
+            if(method === "bKash") {
+                panel.style.display = "block"; methodNameSpan.innerText = "bKash"; vendorNumSpan.innerText = adminBkashNumber;
+            } else if(method === "Nagad") {
+                panel.style.display = "block"; methodNameSpan.innerText = "Nagad"; vendorNumSpan.innerText = adminNagadNumber;
+            } else {
+                panel.style.display = "none";
+            }
+        }
+
+        function copyNumber() {
+            const numText = document.getElementById("vendorNumber").innerText;
+            navigator.clipboard.writeText(numText).then(() => {
+                const toast = document.getElementById("copyToast");
+                toast.style.display = "block";
+                setTimeout(() => { toast.style.display = "none"; }, 1500);
+            });
+        }
+
+        function confirmOrder(){
+            // 🛑 জিপিএস কন্ডিশন ভ্যালিডেশন (শুধু Current Location সিলেক্ট থাকলেই বাধ্যতামূলক)
+            if (selectedDropType === "Current Location" && (!userLat || !userLon)) {
+                alert("বন্ধু, আপনি 'আমার বর্তমান লোকেশন' সিলেক্ট করেছেন। দয়া করে 'নিখুঁত লোকেশন শেয়ার করুন' বাটনে ক্লিক করে আপনার জিপিএস পিন পয়েন্ট লোকেশনটি শেয়ার করুন! সঠিক পিন পয়েন্ট ছাড়া এই অর্ডারের কনফার্মেশন সম্ভব নয়।");
+                document.getElementById("gpsBtn").scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            const name = document.getElementById("custName").value.trim();
+            const phone = document.getElementById("custPhone").value.trim();
+            const address = document.getElementById("custAddress").value.trim();
+            const landmark = document.getElementById("custLandmark").value.trim();
+            const instruction = document.getElementById("deliveryInstruction").value;
+            const customSpecialNote = document.getElementById("custSpecialInstruction").value.trim(); 
+
+            if (!name || !phone || !address) {
+                alert("দয়া করে আপনার নাম, মোবাইল নম্বর এবং সম্পূর্ণ ঠিকানাটি লিখুন বন্ধু।");
+                return;
+            }
+
+            let lastDigits = ""; let txid = "";
+            if(selectedPaymentMethod === "bKash" || selectedPaymentMethod === "Nagad") {
+                lastDigits = document.getElementById("payLastDigits").value.trim();
+                txid = document.getElementById("payTxid").value.trim();
+                if(!lastDigits || !txid) {
+                    alert(`দয়া করে আপনার পেমেন্টের শেষ ৪ ডিজিট এবং TxID টাইপ করুন।`);
+                    return;
+                }
+            }
+
+            try {
+                localStorage.setItem("thetime_cust_name", name);
+                localStorage.setItem("thetime_cust_phone", phone);
+                localStorage.setItem("thetime_cust_address", address);
+            } catch (e) {}
+
+            let orderItemsText = "";
+            shops.forEach(shop=>{
+                if(shop.items) {
+                    shop.items.forEach(item=>{
+                        if(cart[item.id] > 0){
+                            orderItemsText += `• *${item.name}* × ${cart[item.id]} (${item.price * cart[item.id]} ৳)\n`;
+                            
+                            if (selectedExtras[item.id] && selectedExtras[item.id].length > 0) {
+                                selectedExtras[item.id].forEach(ex => {
+                                    orderItemsText += `   └─ _এক্সট্রা: ${ex.name}_ (+${ex.price * cart[item.id]} ৳)\n`;
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            const subtotal = document.getElementById("subtotal").innerText;
+            const vatChargeStr = document.getElementById("vatCharge").innerText;
+            const platformFeeStr = document.getElementById("platformFee").innerText;
+            const deliveryFeeStr = document.getElementById("deliveryFee").innerText;
+            const totalBill = document.getElementById("total").innerText;
+            
+            let whatsappMessage = `*🔔 নতুন অর্ডার এসেছে (THE TIME)*\n\n`;
+            
+            // অর্ডারের ধরন অ্যাড করা হলো
+            whatsappMessage += `*📦 অর্ডারের ধরন:* ${selectedDropType}\n`;
+            
+            if(currentShop) {
+                whatsappMessage += `*🏪 দোকান:* ${currentShop.name}\n`;
+                whatsappMessage += `*📍 দোকানের ঠিকানা:* ${currentShop.address}\n`;
+            }
+            whatsappMessage += `*🛍️ আইটেমসমূহ:*\n${orderItemsText}\n`;
+            whatsappMessage += `*⚖️ অর্ডারের মোট ওজন:* ${totalWeightGlobal.toFixed(2)} কেজি\n`;
+            whatsappMessage += `*💰 বিলের বিবরণ:*\n- সাবটোটাল (পণ্য+এক্সট্রা): ${subtotal}\n- ভ্যাট (৩.৫%): ${vatChargeStr}\n- প্ল্যাটফর্ম ফি: ${platformFeeStr}\n- ডেলিভারি ফি: ${deliveryFeeStr}\n`;
+            
+            if(extraWeightFeeGlobal > 0) {
+                whatsappMessage += `- ওজন এক্সট্রা চার্জ: ${extraWeightFeeGlobal} ৳\n`;
+            }
+            if(selectedRiderTipGlobal > 0) {
+                whatsappMessage += `- রাইডার অনলাইন টিপস: ${selectedRiderTipGlobal} ৳ ❤️\n`;
+            }
+            whatsappMessage += `*💵 সর্বমোট বিল: ${totalBill}*\n\n`;
+            
+            whatsappMessage += `*💳 পেমেন্ট মেথড:* ${selectedPaymentMethod}\n`;
+            if(selectedPaymentMethod !== "Cash") {
+                whatsappMessage += `- লাস্ট ৪ ডিজিট: ${lastDigits}\n- TxID: ${txid}\n\n`;
+            } else {
+                whatsappMessage += `\n`;
+            }
+
+            whatsappMessage += `*👤 কাস্টমারের তথ্য:*\n- নাম: ${name}\n- ফোন: ${phone}\n- ঠিকানা: ${address}\n`;
+            if(landmark) whatsappMessage += `- ল্যান্ডমার্ক: ${landmark}\n`;
+            
+            whatsappMessage += `\n*📝 ডেলিভারি ইন্সট্রাকশন:*\n👉 ${instruction}\n`;
+            if(customSpecialNote) {
+                whatsappMessage += `👉 *विशेष কাস্টম নোট:* ${customSpecialNote}\n`;
+            }
+            
+            // ম্যাপ লিংক অ্যাড করার কন্ডিশন
+            if(userLat && userLon) {
+                let mapSearchUrl = `http://maps.google.com/maps?q=${userLat},${userLon}`;
+                whatsappMessage += `\n*📍 কাস্টমারের লাইভ গুগল ম্যাপস লিংক:*\n${mapSearchUrl}`;
+            } else {
+                whatsappMessage += `\n*📍 জিপিএস লিংক:* কাস্টমার ম্যানুয়াল অ্যাড্রেস ব্যবহার করেছেন।`;
+            }
+
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const whatsappURL = `https://api.whatsapp.com/send?phone=${myWhatsAppNumber}&text=${encodedMessage}`;
+            
+            alert(`ধন্যবাদ ${name}!\nআপনার অর্ডারটি প্রসেস হচ্ছে। হোয়াটসঅ্যাপে অর্ডার মেসেজটি সেন্ড করে দিন।`);
+            window.open(whatsappURL, '_blank');
+
+            // রিসেট ও রিফ্রেশ
+            cart = {};
+            selectedExtras = {};
+            currentCalculatedDeliveryFee = 55;
+            extraWeightFeeGlobal = 0;
+            totalWeightGlobal = 0;
+            selectedRiderTipGlobal = 0; 
+            userLat = null; userLon = null;
+            isCheckoutMode = false;
+
+            document.getElementById("payLastDigits").value = "";
+            document.getElementById("payTxid").value = "";
+            document.getElementById("custLandmark").value = "";
+            document.getElementById("custSpecialInstruction").value = "";
+            document.getElementById("customTipInput").value = "";
+            document.getElementById("customTipInput").style.display = "none";
+            document.getElementById("distanceLabel").innerText = `(GPS ভিত্তিক)`;
+            
+            document.querySelectorAll('.tip-btn').forEach(btn => btn.classList.remove('active'));
+            if(document.getElementById("weightChargeRow")) document.getElementById("weightChargeRow").style.display = "none";
+            if(document.getElementById("riderTipRow")) document.getElementById("riderTipRow").style.display = "none";
+            
+            // অপশন ডিফল্ট করে দেওয়া
+            handleDropTypeChange('current');
+            
+            const gpsBtn = document.getElementById("gpsBtn");
+            gpsBtn.classList.remove("success");
+            gpsBtn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> 📍 নিখুঁত লোকেশন শেয়ার করুন`;
+            
+            selectPayment('Cash', document.querySelectorAll('.payment-option')[0]);
+            updateBill();
+            goBack();
+        }
+
+        function goBack(){
+            if (isCheckoutMode) {
+                isCheckoutMode = false;
+                document.getElementById("checkoutCartContainer").style.display = "none";
+                document.getElementById("suggestionSection").style.display = "none";
+                document.getElementById("menuContainer").style.display = "block";
+                renderMenu();
+                window.scrollTo({top:0, behavior:'smooth'});
+                return;
+            }
+
+            document.getElementById("homePage").style.display = "block";
+            document.getElementById("menuPage").style.display = "none";
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function scrollBottom(){
+            window.scrollTo({ top:document.body.scrollHeight, behavior:'smooth' });
+        }
+
+        function loadSavedCustomerInfo() {
+            try {
+                const savedName = localStorage.getItem("thetime_cust_name");
+                const savedPhone = localStorage.getItem("thetime_cust_phone");
+                const savedAddress = localStorage.getItem("thetime_cust_address");
+                if (savedName) document.getElementById("custName").value = savedName;
+                if (savedPhone) document.getElementById("custPhone").value = savedPhone;
+                if (savedAddress) document.getElementById("custAddress").value = savedAddress;
+            } catch (e) {}
+        }
+    </script>
+</body>
+</html>
